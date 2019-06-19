@@ -16,9 +16,9 @@ int main(int argc, char* argv[])
   tree->Add(2);
   tree->Add(9);
 
-  cout << *(tree->Find(5)) << endl;
+  cout << *(tree->Find(7)) << endl;
   cout << *(tree) << endl;
-  tree->Remove(5);
+  cout << tree->Remove(8) << endl;
   cout << *(tree) << endl;
   delete tree;
 
