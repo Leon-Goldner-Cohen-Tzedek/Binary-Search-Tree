@@ -1,7 +1,7 @@
 //A simple binary search tree
 /*
     INSERT WORKS REALLY DOES WORK THIS TIME
-    FIND
+    FIND WORKS - JANKY THOUGH USED IN CONTAINS
     DELETE
     OSTREAM INORDER PRINT METHOD
     DESTRUCTOR FOR TREE AND NODE
@@ -22,41 +22,88 @@ private:
 
   Node* root = new Node(); //This took me an embarassing amount of time to remember to do. . .
 
-  Node* Private_Add(Node* node, X key)
+  Node* Private_Add(Node* node, X data)
   {
-    if (node->data != nullptr && key < *(node->data))
+    if (node->data != nullptr && data < *(node->data))
     {
       node->left = new Node();
-      node->left = Private_Add(node->left, key);
+      node->left = Private_Add(node->left, data);
     }
-    else if (node->data != nullptr && key > *(node->data))
+    else if (node->data != nullptr && data > *(node->data))
     {
       node->right = new Node();
-      node->right = Private_Add(node->right, key);
+      node->right = Private_Add(node->right, data);
     }
     else
     {
       Node* new_node = new Node();
-      new_node->data = new X(key);
+      new_node->data = new X(data);
       return new_node;
     }
   }
 
-public:
-  void Add(X key) //all of these public methods are basically just wrapping the struct for ease of use
+  X* Private_Find(Node* node, X key)
   {
-    if (root->data != nullptr && key < *(root->data))//all of this handles the root node, Private_Add handles the rest
+    if (node->data != nullptr && node->left != nullptr && key < *(node->data))
     {
-      root->left = Private_Add(root->left, key);
+      return Private_Find(node->left, key);
     }
-    if (root->data != nullptr && key > *(root->data))
+    else if (node->data != nullptr && node->right != nullptr && key > *(node->data))
     {
-      root->right = Private_Add(root->right, key);
+      return Private_Find(node->right, key);
+    }
+    else if (*(node->data) != key && node->right == nullptr && node->left == nullptr)
+    {
+      return nullptr;
     }
     else
     {
-      root->data = new X(key);
+      return node->data;
     }
+  }
+
+  void Private_Delete(Node* node, X key)
+  {
+
+  }
+
+public:
+  void Add(X data) //all of these public methods are basically just wrapping the struct for ease of use
+  {
+    if (root->data != nullptr && data < *(root->data))//all of this handles the root node, Private_Add handles the rest
+    {
+      root->left = Private_Add(root->left, data);
+    }
+    if (root->data != nullptr && data > *(root->data))
+    {
+      root->right = Private_Add(root->right, data);
+    }
+    else
+    {
+      root->data = new X(data);
+    }
+  }
+
+  X* Find(X key)
+  {
+    return Private_Find(root, key);
+  }
+
+  bool Contains(X key)
+  {
+    if (Private_Find(root, key) == nullptr)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
+  void Delete(X key)
+  {
+
   }
 
   BST()

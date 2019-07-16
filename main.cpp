@@ -6,13 +6,11 @@ using namespace std;
 int main(int argc, char* argv[])
 {
   BST<int> tree_three(10);
-  BST<int> tree_too;
 
   tree_three.Add(11);
   tree_three.Add(9);
-  tree_too.Add(10);
-  tree_too.Add(11);
-  tree_too.Add(9);
+
+  cout << tree_three.Contains(10) << endl;
 
   return 0;
 }
