@@ -1,6 +1,6 @@
 //A simple binary search tree
 /*
-    INSERT WORKs
+    INSERT WORKS REALLY DOES WORK THIS TIME
     FIND
     DELETE
     OSTREAM INORDER PRINT METHOD
@@ -20,17 +20,19 @@ private:
     Node* right;
   };
 
-  Node* root = new Node(); //Thia took me an embarassing amount of time to remember to do. . .
+  Node* root = new Node(); //This took me an embarassing amount of time to remember to do. . .
 
   Node* Private_Add(Node* node, X key)
   {
-    if (node->data != nullptr && *(node->data) < key)
+    if (node->data != nullptr && key < *(node->data))
     {
-      return Private_Add(node->left, key);
+      node->left = new Node();
+      node->left = Private_Add(node->left, key);
     }
-    else if (node->data != nullptr && *(node->data) > key)
+    else if (node->data != nullptr && key > *(node->data))
     {
-      return Private_Add(node->right, key);
+      node->right = new Node();
+      node->right = Private_Add(node->right, key);
     }
     else
     {
@@ -39,22 +41,38 @@ private:
       return new_node;
     }
   }
+
 public:
   void Add(X key) //all of these public methods are basically just wrapping the struct for ease of use
   {
-    Private_Add(root, key);
+    if (root->data != nullptr && key < *(root->data))//all of this handles the root node, Private_Add handles the rest
+    {
+      root->left = Private_Add(root->left, key);
+    }
+    if (root->data != nullptr && key > *(root->data))
+    {
+      root->right = Private_Add(root->right, key);
+    }
+    else
+    {
+      root->data = new X(key);
+    }
   }
-
-
 
   BST()
   {
     root->data = nullptr;
+    root->left = new Node();
+    root->right = new Node();
   }
 
   BST(X data)
   {
-    root->data = new X(data);
+    root->data = new X();
+    root->left = new Node();
+    root->right = new Node();
+
+    this->Add(data);
   }
 
 };
