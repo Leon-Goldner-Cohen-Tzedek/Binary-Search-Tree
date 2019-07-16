@@ -1,11 +1,13 @@
 //A simple binary search tree
 /*
-    INSERT
+    INSERT WORKs
     FIND
     DELETE
     OSTREAM INORDER PRINT METHOD
     DESTRUCTOR FOR TREE AND NODE
 */
+#include <iostream>
+using namespace std;
 
 template <class X> class BST
 {
@@ -13,41 +15,46 @@ private:
 
   struct Node
   {
-    X* data
+    X* data;
     Node* left;
-    Node* right
-  }
+    Node* right;
+  };
 
-  Node* root;
+  Node* root = new Node(); //Thia took me an embarassing amount of time to remember to do. . .
 
-  Node* insert(Node* node, X data)
+  Node* Private_Add(Node* node, X key)
   {
-
-  }
-
-public:
-
-  void Insert(X data)
-  {
-    // EITHER
-    if (root == NULL)
+    if (node->data != nullptr && *(node->data) < key)
     {
-        root = insert(root, data);
+      return Private_Add(node->left, key);
     }
-    else if
+    else if (node->data != nullptr && *(node->data) > key)
     {
-        insert(root, data);
+      return Private_Add(node->right, key);
     }
     else
     {
-      root = insert(root, data);
+      Node* new_node = new Node();
+      new_node->data = new X(key);
+      return new_node;
     }
-
+  }
+public:
+  void Add(X key) //all of these public methods are basically just wrapping the struct for ease of use
+  {
+    Private_Add(root, key);
   }
 
 
-  BST();
 
-  BST(X& data);
+  BST()
+  {
+    root->data = nullptr;
+  }
 
-}
+  BST(X data)
+  {
+    root->data = new X(data);
+  }
+
+};

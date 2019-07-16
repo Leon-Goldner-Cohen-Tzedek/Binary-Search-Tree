@@ -5,24 +5,14 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-  TreeNode<int>* tree = new TreeNode<int>;
+  BST<int> tree_three(10);
+  BST<int> tree_too;
 
-  tree->Add(3);
-  tree->Add(5);
-  tree->Add(7);
-  tree->Add(4);
-  tree->Add(10);
-  tree->Add(33);
-  tree->Add(2);
-  tree->Add(9);
-
-  cout << *(tree->Find(7)) << endl;
-  cout << *(tree) << endl;
-  cout << tree->Remove(8) << endl;
-  cout << *(tree) << endl;
-  delete tree;
-
-
+  tree_three.Add(11);
+  tree_three.Add(9);
+  tree_too.Add(10);
+  tree_too.Add(11);
+  tree_too.Add(9);
 
   return 0;
 }
