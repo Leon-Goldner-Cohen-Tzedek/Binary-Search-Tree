@@ -44,15 +44,15 @@ private:
 
   X* Private_Find(Node* node, X key)
   {
-    if (node->data != nullptr && node->left != nullptr && key < *(node->data))
+    if (node->left != nullptr && node->data != nullptr && key < *(node->data))
     {
       return Private_Find(node->left, key);
     }
-    else if (node->data != nullptr && node->right != nullptr && key > *(node->data))
+    else if (node->right != nullptr && node->data != nullptr &&  key > *(node->data))
     {
       return Private_Find(node->right, key);
     }
-    else if (*(node->data) != key && node->right == nullptr && node->left == nullptr)
+    else if (node->right == nullptr && *(node->data) != key && node->left == nullptr)
     {
       return nullptr;
     }
@@ -62,9 +62,44 @@ private:
     }
   }
 
-  void Private_Delete(Node* node, X key)
-  {
 
+  Node* Private_Delete(Node* node, X key)
+  {
+    if (key < *(node->data))
+    {
+      node->left = Private_Delete(node->left, key);
+    }
+    else if (key > *(node->data))
+    {
+      node->right = Private_Delete(node->right, key);
+    }
+    else
+    {
+      if (node->left == nullptr)
+      {
+        Node* temp = new Node();
+        delete node->right;
+        return temp;
+      }
+      else if (node->right == nullptr)
+      {
+        Node* temp = new Node();
+        delete node->left;
+        return temp;
+      }
+      else //find the left most child and make that the root of the subtree
+      {
+        Node* leftmost = new Node();
+        //to start off the chain and go down from there: setting leftmost to the current node so as to traverse from this node as the new "root"
+        leftmost->data = new X();
+        while (leftmost && leftmost->left != nullptr)
+        {
+          leftmost = leftmost->left;
+        }
+        node->data = leftmost->data;
+        node->right = Private_Delete(node->right, *(leftmost->data)); //deletes the the leftmost after it has been transffered
+      }
+    }
   }
 
 public:
@@ -103,8 +138,9 @@ public:
 
   void Delete(X key)
   {
-
+    root = Private_Delete(root, key);
   }
+
 
   BST()
   {
