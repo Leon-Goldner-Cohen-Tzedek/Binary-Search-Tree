@@ -60,8 +60,46 @@ private:
     }
   }
 
-  Node* Private_Delete(Node* node, X key)
+  Node* Private_Remove(Node* node, X key)
   {
+    if (node == nullptr)
+    {
+      return nullptr;
+    }
+    else if (key < *(node->data))
+    {
+      node->left = Private_Remove(node->left, key);
+    }
+    else if (key > *(node->data))
+    {
+      node->right = Private_Remove(node->right, key);
+    }
+    else
+    {
+      if (node->left == nullptr)
+      {
+        Node* temp = node->right;
+        delete node;
+        return temp;
+      }
+      else if (node->right == nullptr)
+      {
+        Node* temp = node->left;
+        delete node;
+        return temp;
+      }
+      else
+      {
+        Node* current_node = node->right;
+        while (current_node && current_node->left != nullptr)
+        {
+          current_node = current_node->left;
+        }
+        node->data = current_node->data;
+        node->right = Private_Remove(node->right, key);
+      }
+    }
+    return node;
   }
 
   Node* Private_Add(Node* node, X data)
@@ -127,9 +165,9 @@ public:
     }
   }
 
-  void Delete(X key)
+  void Remove(X key)
   {
-    root = Private_Delete(root, key);
+    root = Private_Remove(root, key);
   }
 
   Node* Root()

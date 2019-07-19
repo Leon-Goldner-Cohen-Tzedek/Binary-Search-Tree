@@ -18,6 +18,9 @@ int main(int argc, char* argv[])
 
   cout << tree_three->Contains(10) << endl;
   cout << *(tree_three) << endl;
+
+  tree_three->Remove(10);
+  cout << *(tree_three) << endl;
   delete tree_three;
   return 0;
 }
